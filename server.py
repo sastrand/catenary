@@ -14,11 +14,12 @@ s.bind(('', port))
 s.listen(5)
 print("Socket listening at port {}.".format(port))
 
+c, addr = s.accept()
+print("\tGot connection from {}".format(addr))
+c.send(b'\tHello from the server.')
+
 # The server sends and receives messages on a new socket for each connection
 while True:
-    c, addr = s.accept()
-    print("\tGot connection from {}".format(addr))
-    c.send(b'\tHello from the server.')
     msg = json.loads(c.recv(4096).decode())
     print("\t" + msg['body'])
-    c.close()
+c.close()
