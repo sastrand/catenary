@@ -5,6 +5,7 @@ import socket
 import json
 
 s = socket.socket()
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 port = 8080
 
 # No address specified so any device could connect
