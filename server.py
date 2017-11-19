@@ -2,8 +2,9 @@
 # Available open source through the MIT License
 
 import socket
-import select
-from msg_processing import process_message, broadcast, print_all_users
+from select import select
+# from msg_processing import process_message, broadcast, print_all_users
+from msg_processing import *
 from pandas import DataFrame
 
 WELCOME_PORT = 8080
@@ -44,7 +45,7 @@ all_sockets.append(s)
 #-----------------------------------------------#
 
 while True:
-	active_sockets,_,_ = select.select(all_sockets, [], [])
+	active_sockets,_,_ = select(all_sockets, [], [])
 	for active_socket in active_sockets:
 		if active_socket == s:
 			# New connection
@@ -65,7 +66,10 @@ while True:
 				print_all_users(all_users)
 				
 			except Exception as e:
-				# broadcast("User {} has left the channel\n".format(addr), all_sockets, [s, active_socket])
+				broadcast("User {} has left the channel\n".format(addr), all_sockets, [s, active_socket])
 				print("exception: {}".format(e))
+				all_sockets.remove(active_socket)
+				active_socket.close()
+
 
 s.close()
