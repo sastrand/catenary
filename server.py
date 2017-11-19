@@ -2,27 +2,18 @@
 # Available open source through the MIT License
 
 import socket
-import json
 import select
+from msg_processing import process_message, broadcast
 
 WELCOME_PORT = 8080
 MAX_MSG_SIZE = 4096 #bytes 
-
-def broadcast (body, recipients, ommitted):
-	for socket in recipients:
-		if socket not in ommitted:
-			try:
-				socket.send(body.encode())
-			except Exception as e:
-				socket.close()
-				recipients.remove(socket)
-				print("A client has been disconnected due to an error: {}".format(e))
 
 #-----------------------------------------------#
 #                Set up server                  #
 #-----------------------------------------------#
 
 all_sockets = []
+all_channels = []
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -51,9 +42,9 @@ while True:
 		else:
 			try:
 				# Incoming message
-				msg = json.loads(active_socket.recv(MAX_MSG_SIZE).decode())
-				body = "\r[" + msg['from'] + "] " + msg['body']
-				broadcast(body, all_sockets, [s, active_socket])
+				msg_json = active_socket.recv(MAX_MSG_SIZE).decode()
+				process_message(msg_json, all_sockets, [s, active_socket])
+				
 			except Exception as e:
 				# broadcast("User {} has left the channel\n".format(addr), all_sockets, [s, active_socket])
 				print("exception: {}".format(e))

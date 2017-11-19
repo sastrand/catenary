@@ -6,7 +6,7 @@ import sys
 import select
 
 ID_LENGTH = 6
-SERVER_HOSTNAME = 'localhost'
+SERVER_HOSTNAME = "localhost"
 PORT = 8080
 SELF_ID = "[You] "
 
