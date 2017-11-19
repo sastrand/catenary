@@ -19,3 +19,10 @@ def broadcast (body, recipients, ommitted):
 				recipients.remove(socket)
 				print("A client has been disconnected due to an error: {}".format(e))
 
+def print_all_users(all_users):
+	print("+--------------------------------+")
+	print("|         All Users By IP        |")
+	print("+--------------------------------+")
+	for user in all_users:
+		print(user['ip_address'])
+		print(user['socket_obj'])

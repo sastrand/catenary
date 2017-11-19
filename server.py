@@ -3,17 +3,29 @@
 
 import socket
 import select
-from msg_processing import process_message, broadcast
+from msg_processing import process_message, broadcast, print_all_users
+from pandas import DataFrame
 
 WELCOME_PORT = 8080
 MAX_MSG_SIZE = 4096 #bytes 
+DEFAULT_CHANNELS = {
+	'main':[],
+}
+USER = {
+	'ip_address':[],
+	'username':[],
+	'socket_obj':[],
+}
 
 #-----------------------------------------------#
 #                Set up server                  #
 #-----------------------------------------------#
 
 all_sockets = []
-all_channels = []
+all_channels = DataFrame(DEFAULT_CHANNELS)
+all_users = []
+
+print(all_channels)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -37,6 +49,12 @@ while True:
 		if active_socket == s:
 			# New connection
 			c, addr = s.accept()
+			this_user = {
+				'ip_address': addr,
+				'username': "unknow",
+				'socket_obj': c
+			}
+			all_users.append(this_user)
 			all_sockets.append(c)
 			print("\tGot connection from {}".format(addr))
 		else:
@@ -44,6 +62,7 @@ while True:
 				# Incoming message
 				msg_json = active_socket.recv(MAX_MSG_SIZE).decode()
 				process_message(msg_json, all_sockets, [s, active_socket])
+				print_all_users(all_users)
 				
 			except Exception as e:
 				# broadcast("User {} has left the channel\n".format(addr), all_sockets, [s, active_socket])
