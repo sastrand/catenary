@@ -1,6 +1,14 @@
 # Copyright (c) 2017 Sascha Strand
 # Available open source through the MIT License
 
+# To do: messages sent just to user in channel
+# To do: user can leave channel by prompt
+# To do: user can leave channel on disconnect
+# To do: user can list all rooms
+# To do: .private messaging
+# To do: .enhanced security
+# To do: .file transfer
+
 import socket
 from select import select
 from msg_processing import *
