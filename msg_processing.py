@@ -35,4 +35,4 @@ def print_channel_members(all_channels):
 		# print(channel)
 		for user in all_channels[channel]:
 			# print("   " + channel + ": " + user)
-			print(" {:16s} {:16s}".format(channel, user))
+			print(" {:16s}{:16s}".format(channel[:15], user[:16]))

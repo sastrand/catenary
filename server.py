@@ -48,7 +48,7 @@ while True:
 			c, addr = s.accept()
 			this_user = {
 				'ip_address': addr,
-				'username': "unknow",
+				'username': "unknown",
 				'socket_obj': c
 			}
 			all_users.append(this_user)
@@ -58,7 +58,13 @@ while True:
 			try:
 				# Incoming message
 				msg = loads(active_socket.recv(MAX_MSG_SIZE).decode())
+				# if msg['to'] == 'JOINWORKSPACE':
+				# 	if msg[]
+
+
 				if msg['to'] == "JOINCHANNEL":
+					# print("<><> Active Socket info: {}".format(active_socket))
+					# if all_users[]
 					if msg['body'] in all_channels:
 						all_channels[msg['body']].append(msg['from'])
 						print_channel_members(all_channels)
