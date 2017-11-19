@@ -23,9 +23,7 @@ def print_all_users(all_users):
 	print("|         All Users By IP        |")
 	print("+--------------------------------+")
 	for user in all_users:
-		print(user['ip_address'])
-		print(user['socket_obj'])
-	print("")
+		print(" {:12s}{:16s}".format(user[:11], str(all_users[user].getpeername())))
 
 def print_channel_members(all_channels):
 	print("\n+--------------------------------+")
@@ -36,3 +34,7 @@ def print_channel_members(all_channels):
 		for user in all_channels[channel]:
 			# print("   " + channel + ": " + user)
 			print(" {:16s}{:16s}".format(channel[:15], user[:16]))
+
+# def add_user_to_userlist(active_socket, all_users):
+# 	new_user_info = {'ip_address': active_socket.laddr, 'socket_obj': active_socket}
+# 	all_users.update({msg['from']:

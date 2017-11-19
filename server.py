@@ -8,6 +8,8 @@
 # To do: .private messaging
 # To do: .enhanced security
 # To do: .file transfer
+# To do: order all users by IP
+# To do: order Channel membership
 
 import socket
 from select import select
@@ -18,11 +20,6 @@ MAX_MSG_SIZE = 4096 #bytes
 DEFAULT_CHANNELS = {
 	# 'main':['poobear'],
 }
-USER = {
-	'ip_address':[],
-	'username':[],
-	'socket_obj':[],
-}
 
 #-----------------------------------------------#
 #                Set up server                  #
@@ -30,12 +27,12 @@ USER = {
 
 all_sockets = []
 all_channels = DEFAULT_CHANNELS
-all_users = []
+all_users = {}
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-# No address specified so device with an IP address can connect
+# No address specified so a device with any IP address can connect
 s.bind(('', WELCOME_PORT))
 
 # max of five clients at a time
@@ -54,25 +51,16 @@ while True:
 		if active_socket == s:
 			# New connection
 			c, addr = s.accept()
-			this_user = {
-				'ip_address': addr,
-				'username': "unknown",
-				'socket_obj': c
-			}
-			all_users.append(this_user)
 			all_sockets.append(c)
 			print("\tGot connection from {}".format(addr))
 		else:
 			try:
 				# Incoming message
 				msg = loads(active_socket.recv(MAX_MSG_SIZE).decode())
-				# if msg['to'] == 'JOINWORKSPACE':
-				# 	if msg[]
-
-
 				if msg['to'] == "JOINCHANNEL":
-					# print("<><> Active Socket info: {}".format(active_socket))
-					# if all_users[]
+					if not msg['from'] in all_users:
+						all_users.update({msg['from']:active_socket})
+						print_all_users(all_users)
 					if msg['body'] in all_channels:
 						all_channels[msg['body']].append(msg['from'])
 						print_channel_members(all_channels)
