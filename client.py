@@ -23,20 +23,31 @@ def prompt_flush(ps1):
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-user_id = id_generator()
-
-msg = {}
-msg['to'] = "server_initial"
-msg['from'] = user_id
-msg['body'] = "hello from user {}.".format(user_id)
-
 try:
 	s.connect((SERVER_HOSTNAME, PORT))
+	print("\n+--------------------------------+")
+	print("|       Welcome to Catenary      |")
+	print("+--------------------------------+")
 except:
-	print("There was a problem connecting. The server may not be running.")
+	print("There was a problem connecting to the server.")
 	exit()
 
-sys.stdout.write("Welcome\n")
+user_id = input("Please enter a user id\n")
+if not user_id:
+	user_id = id_generator()
+print("Welcome {}".format(user_id))
+
+channel = input("What channel would you like to join?\n")
+if not channel:
+	channel = "main"
+
+msg = {}
+msg['to'] = "JOINCHANNEL"
+msg['from'] = user_id
+msg['body'] = channel
+
+s.send(json.dumps(msg).encode())
+
 prompt_flush(user_id)
 
 #-----------------------------------------------#

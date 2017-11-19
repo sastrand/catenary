@@ -3,7 +3,6 @@
 
 import socket
 from select import select
-# from msg_processing import process_message, broadcast, print_all_users
 from msg_processing import *
 from pandas import DataFrame
 
@@ -61,9 +60,11 @@ while True:
 		else:
 			try:
 				# Incoming message
-				msg_json = active_socket.recv(MAX_MSG_SIZE).decode()
-				process_message(msg_json, all_sockets, [s, active_socket])
-				print_all_users(all_users)
+				msg = loads(active_socket.recv(MAX_MSG_SIZE).decode())
+				if msg['to'] == "JOINCHANNEL":
+					print("User: " + msg['from'])
+				else:
+					process_message(msg, all_sockets, [s, active_socket])
 				
 			except Exception as e:
 				broadcast("User {} has left the channel\n".format(addr), all_sockets, [s, active_socket])
