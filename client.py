@@ -71,7 +71,7 @@ while True:
 				exit()
 		else:
 		# message to the server
-			msg['to'] = "server"
+			msg['to'] = channel
 			msg['from'] = user_id
 			msg['body'] = sys.stdin.readline()
 			s.send(json.dumps(msg).encode())

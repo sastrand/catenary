@@ -20,6 +20,10 @@ MAX_MSG_SIZE = 4096 #bytes
 DEFAULT_CHANNELS = {
 	# 'main':['poobear'],
 }
+DEFAULT_USERS = {
+	# 'poobear'
+	# 'socket_obj': <socket object>
+}
 
 #-----------------------------------------------#
 #                Set up server                  #
@@ -32,7 +36,7 @@ all_users = {}
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-# No address specified so a device with any IP address can connect
+# No address specified so a device with any IP address can connect 
 s.bind(('', WELCOME_PORT))
 
 # max of five clients at a time
@@ -70,10 +74,10 @@ while True:
 
 					print("User: " + msg['from'])
 				else:
-					process_message(msg, all_sockets, [s, active_socket])
+					broadcast_to_channel(msg, all_users, all_channels, active_socket)
 				
 			except Exception as e:
-				broadcast("User {} has left the channel\n".format(addr), all_sockets, [s, active_socket])
+				broadcast_to_workspace("User {} has left the channel\n".format(addr), all_sockets, [s, active_socket])
 				all_sockets.remove(active_socket)
 				active_socket.close()
 				exception_record = "An exception of type {0} occurred. \nArguments:{1!r}"
