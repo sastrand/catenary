@@ -55,24 +55,28 @@ prompt_flush(user_id)
 #-----------------------------------------------#
 
 while True:
-	all_sockets = [sys.stdin, s]
+	while msg['body'] != ":::\n":
+		all_sockets = [sys.stdin, s]
 
-	active_sockets,_,_ = select.select(all_sockets, [], [])
+		active_sockets,_,_ = select.select(all_sockets, [], [])
 
-	for active_socket in active_sockets:
-		if active_socket == s:
-		# messages from server
-			data = active_socket.recv(4096).decode()
-			if data:
-				sys.stdout.write(data)
-				prompt_flush(user_id)
+		for active_socket in active_sockets:
+			if active_socket == s:
+			# messages from server
+				data = active_socket.recv(4096).decode()
+				if data:
+					sys.stdout.write(data)
+					prompt_flush(user_id)
+				else:
+					print("The server has closed your connection.")
+					exit()
 			else:
-				print("The server has closed your connection.")
-				exit()
-		else:
-		# message to the server
-			msg['to'] = channel
-			msg['from'] = user_id
-			msg['body'] = sys.stdin.readline()
-			s.send(json.dumps(msg).encode())
-			prompt_flush(user_id)
+			# message to the server
+				msg['body'] = sys.stdin.readline()
+				if msg['body'] != ":::\n":
+					msg['to'] = channel
+					msg['from'] = user_id
+					s.send(json.dumps(msg).encode())
+					prompt_flush(user_id)
+	print("<><><> out of the loop <><><>")
+	msg['body'] = ''

@@ -1,7 +1,6 @@
 # Copyright (c) 2017 Sascha Strand
 # Available open source through the MIT License
 
-# To do: messages sent just to user in channel
 # To do: user can leave channel by prompt
 # To do: user can leave channel on disconnect
 # To do: user can list all rooms
@@ -21,8 +20,7 @@ DEFAULT_CHANNELS = {
 	# 'main':['poobear'],
 }
 DEFAULT_USERS = {
-	# 'poobear'
-	# 'socket_obj': <socket object>
+	# 'poobear': <socket object>,
 }
 
 #-----------------------------------------------#
@@ -31,7 +29,7 @@ DEFAULT_USERS = {
 
 all_sockets = []
 all_channels = DEFAULT_CHANNELS
-all_users = {}
+all_users = DEFAULT_USERS
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)

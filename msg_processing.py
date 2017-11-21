@@ -4,10 +4,6 @@
 from json import loads
 from select import select
 
-# def process_message(msg, all_users, all_channels, ommitted_broadcast):
-# 	body = "\r[" + msg['from'] + "] " + msg['body']
-# 	broadcast_to_channel(to, body, all_sockets, ommitted_broadcast)
-
 def broadcast_to_workspace (body, recipients, ommitted):
 	for socket in recipients:
 		if socket not in ommitted:
@@ -45,7 +41,3 @@ def print_channel_members(all_channels):
 		for user in all_channels[channel]:
 			# print("   " + channel + ": " + user)
 			print(" {:16s}{:16s}".format(channel[:15], user[:16]))
-
-# def add_user_to_userlist(active_socket, all_users):
-# 	new_user_info = {'ip_address': active_socket.laddr, 'socket_obj': active_socket}
-# 	all_users.update({msg['from']:
