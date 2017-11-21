@@ -25,6 +25,24 @@ def broadcast_to_channel (msg, recipients, channels, ommitted):
 				# recipients.remove(user) #make sure pass-by-value works or abstract out globals
 				print("A client has been disconnected due to an error: {}".format(e))
 
+def send_to_user (msg, recipient):
+	try:
+		recipient.send(msg.encode())
+	except Exception as e:
+		recipient.close()
+		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
+		print("A client has been disconnected due to an error: {}".format(e))
+
+def list_channels (all_channels, recipient):
+	try:
+		send_to_user("\n+--------------------------------+"\
+		"\n|          All Channels          |"\
+		"\n+--------------------------------+\n\r", recipient)
+		for channel in all_channels:
+			send_to_user(str(channel) + "\n\r", recipient)
+	except Exception as e:
+		print("error")
+
 def print_all_users(all_users):
 	print("\n+--------------------------------+")
 	print("|         All Users By IP        |")
@@ -41,3 +59,8 @@ def print_channel_members(all_channels):
 		for user in all_channels[channel]:
 			# print("   " + channel + ": " + user)
 			print(" {:16s}{:16s}".format(channel[:15], user[:16]))
+
+
+	print("+--------------------------------+")
+	print("|          All Channels          |")
+	print("+--------------------------------+")

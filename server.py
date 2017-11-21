@@ -1,8 +1,9 @@
 # Copyright (c) 2017 Sascha Strand
 # Available open source through the MIT License
 
+# To do: print all channels
 # To do: user can leave channel by prompt
-# To do: user can leave channel on disconnect
+# To do: user can leave channel on disconnect (see recipients.remove comments)
 # To do: user can list all rooms
 # To do: .private messaging
 # To do: .enhanced security
@@ -69,8 +70,10 @@ while True:
 					else:
 						all_channels.update({msg['body']: [msg['from']]})
 						print_channel_members(all_channels)
-
 					print("User: " + msg['from'])
+				elif msg['to'] == "LISTCHANNELS":
+					list_channels(all_channels, all_users[msg['from']])
+
 				else:
 					broadcast_to_channel(msg, all_users, all_channels, active_socket)
 				
