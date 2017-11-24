@@ -1,8 +1,7 @@
 # Copyright (c) 2017 Sascha Strand
 # Available open source through the MIT License
 
-# To do: print all channels
-# To do: user can leave channel by prompt
+# To do: user can leave channel by prompt and leaves all_users list at close
 # To do: user can leave channel on disconnect (see recipients.remove comments)
 # To do: user can list all rooms
 # To do: .private messaging
@@ -73,7 +72,8 @@ while True:
 					print("User: " + msg['from'])
 				elif msg['to'] == "LISTCHANNELS":
 					list_channels(all_channels, all_users[msg['from']])
-
+				elif msg['to'] == "LEAVECHANNEL":
+					leave_channel(all_channels, all_users[msg['from']], all_users[msg['body']])
 				else:
 					broadcast_to_channel(msg, all_users, all_channels, active_socket)
 				
@@ -81,9 +81,9 @@ while True:
 				broadcast_to_workspace("User {} has left the channel\n".format(addr), all_sockets, [s, active_socket])
 				all_sockets.remove(active_socket)
 				active_socket.close()
-				exception_record = "An exception of type {0} occurred. \nArguments:{1!r}"
-				exception_print = exception_record.format(type(e).__name__, e.args)
-				print(exception_print)
+				# exception_record = "An exception of type {0} occurred. \nArguments:{1!r}"
+				# exception_print = exception_record.format(type(e).__name__, e.args)
+				# print(exception_print)
 
 
 s.close()

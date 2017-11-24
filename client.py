@@ -78,7 +78,6 @@ while True:
 					msg['from'] = user_id
 					s.send(json.dumps(msg).encode())
 					prompt_flush(user_id)
-	print("<><><> out of the loop <><><>")
 	msg['to'] = "LISTCHANNELS"
 	msg['from'] = user_id
 	msg['body'] = ''

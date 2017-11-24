@@ -35,13 +35,20 @@ def send_to_user (msg, recipient):
 
 def list_channels (all_channels, recipient):
 	try:
-		send_to_user("\n+--------------------------------+"\
+		send_to_user("\r+--------------------------------+"\
 		"\n|          All Channels          |"\
 		"\n+--------------------------------+\n\r", recipient)
 		for channel in all_channels:
 			send_to_user(str(channel) + "\n\r", recipient)
 	except Exception as e:
-		print("error")
+		recipient.close()
+		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
+		print("A client has been disconnected due to an error: {}".format(e))
+
+def leave_channel(all_channels, user, channel):
+	pass
+	## Implement leave_channel
+	## 
 
 def print_all_users(all_users):
 	print("\n+--------------------------------+")
