@@ -39,7 +39,7 @@ def list_channels (all_channels, recipient):
 		"\n|          All Channels          |"\
 		"\n+--------------------------------+\n\r", recipient)
 		for channel in all_channels:
-			send_to_user(str(channel) + "\n\r", recipient)
+			send_to_user("\r" + str(channel) + "\n\r", recipient)
 	except Exception as e:
 		recipient.close()
 		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
@@ -52,7 +52,7 @@ def leave_channel(all_channels, user, channel):
 
 def print_all_users(all_users):
 	print("\n+--------------------------------+")
-	print("|         All Users By IP        |")
+	print("|        All Users With IP       |")
 	print("+--------------------------------+")
 	for user in all_users:
 		print(" {:12s}{:16s}".format(user[:11], str(all_users[user].getpeername())))
@@ -66,8 +66,3 @@ def print_channel_members(all_channels):
 		for user in all_channels[channel]:
 			# print("   " + channel + ": " + user)
 			print(" {:16s}{:16s}".format(channel[:15], user[:16]))
-
-
-	print("+--------------------------------+")
-	print("|          All Channels          |")
-	print("+--------------------------------+")
