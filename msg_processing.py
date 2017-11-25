@@ -46,6 +46,14 @@ def list_channels (all_channels, recipient):
 		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
 		print("A client has been disconnected due to an error in list_channels: {}".format(e))
 
+def client_disconnect (all_channels, all_users, socket_out):
+	try:
+		for user in all_users:
+			if all_users[user] == socket_out:
+				leave_workspace(all_channels, all_users, user)
+	except:
+		print("oh")
+
 def leave_workspace (all_channels, all_users, leaving_user):
 	try:
 		del all_users[leaving_user]
