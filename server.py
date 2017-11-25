@@ -60,22 +60,19 @@ while True:
 				# Incoming message
 				msg = loads(active_socket.recv(MAX_MSG_SIZE).decode())
 				if msg['to'] == "JOINCHANNEL":
-					if not msg['from'] in all_users:
+					if msg['from'] not in all_users:
+						# new user added to user list
 						all_users.update({msg['from']:active_socket})
 						print_all_users(all_users)
-					if msg['body'] in all_channels:
-						all_channels[msg['body']].append(msg['from'])
-						print_channel_members(all_channels)
-					else:
-						all_channels.update({msg['body']: [msg['from']]})
-						print_channel_members(all_channels)
+					join_channel(all_channels, all_users, msg['from'], msg['body'])
+					print_channel_members(all_channels)
 				elif msg['to'] == "LISTCHANNELS":
 					list_channels(all_channels, all_users[msg['from']])
 				elif msg['to'] == "LEAVECHANNEL":
-					print("here2")
-					leave_channel(all_channels, all_users[msg['from']], all_users[msg['body']])
-					print("User {} left channel {}".format(msg['from'], msg['body']))
-					print_channel_members(all_channels)
+					pass
+					# leave_channels(all_channels, all_users[msg['from']], all_users[msg['body']])
+					# print("User {} left channel {}".format(msg['from'], msg['body']))
+					# print_channel_members(all_channels)
 				else:
 					broadcast_to_channel(msg, all_users, all_channels, active_socket)
 				

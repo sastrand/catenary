@@ -89,16 +89,12 @@ while True:
 		msg['from'] = user_id
 		msg['body'] = ''
 	if command in ["join\n", "j\n"]:
-		channel_to_join = input("channel: ")
+		channel = input("channel: ")
 		msg['to'] = "JOINCHANNEL"
 		msg['from'] = user_id
-		msg['body'] = channel_to_join
-	if command in ["leave\n", "lv\n"]:
+		msg['body'] = channel
+	if command in ["quit\n", "q\n"]:
 		pass
-		channel_to_leave = input("channel (press enter for current): ")
-		if channel_to_leave == '\n':
-			channel_to_leave = channel
-		print("<" + channel_to_leave + ">")
 		# msg['to'] = "LEAVECHANNEL"
 		# msg['from'] = user_id
 		# msg['body'] = channel_to_leave

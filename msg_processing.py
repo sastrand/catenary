@@ -19,6 +19,7 @@ def broadcast_to_channel (msg, recipients, channels, ommitted):
 	for user in recipients:
 		if user in channels[msg['to']] and recipients[user] != ommitted:
 			try:
+				# print("<><> to: " + user + "  at channel: " + msg['to'])
 				recipients[user].send(body.encode())
 			except Exception as e:
 				recipients[user].close()
@@ -45,24 +46,34 @@ def list_channels (all_channels, recipient):
 		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
 		print("A client has been disconnected due to an error in list_channels: {}".format(e))
 
-def leave_channel(all_channels, user, channel):
-	try:
-		# all_channels[channel].remove(user)
-		pass
-	except Exception as e:
-		pass
-		# recipient.close()
-		# # recipients.remove(user) #make sure pass-by-value works or abstract out globals
-		# print("A client has been disconnected due to an error in leave_channel: {}".format(e))
+def join_channel (all_channels, all_users, user, channel):
+	if channel in all_channels and user not in all_channels[channel]:
+		# user joins existing channel
+		leave_channels(all_channels, user)
+		all_channels[channel].append(user)
+	else:
+		# existing user creates channel
+		leave_channels(all_channels, user)
+		all_channels.update({channel: [user]})
 
-def print_all_users(all_users):
+def leave_channels (all_channels, user):
+	try:
+		for channel in all_channels:
+			if user in all_channels[channel]:
+				all_channels[channel].remove(user)
+	except Exception as e:
+		recipient.close()
+		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
+		print("A client has been disconnected due to an error in leave_channel: {}".format(e))
+
+def print_all_users (all_users):
 	print("\n+--------------------------------+")
 	print("|        All Users With IP       |")
 	print("+--------------------------------+")
 	for user in all_users:
 		print(" {:12s}{:16s}".format(user[:11], str(all_users[user].getpeername())))
 
-def print_channel_members(all_channels):
+def print_channel_members (all_channels):
 	print("\n+--------------------------------+")
 	print("|       Channel Membership       |")
 	print("+--------------------------------+")
