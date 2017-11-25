@@ -10,29 +10,22 @@ def broadcast_to_workspace (body, recipients, ommitted):
 			try:
 				socket.send(body.encode())
 			except Exception as e:
-				socket.close()
-				recipients.remove(socket)
-				print("A client has been disconnected due to an error in broadcast_to_workspace: {}".format(e))
+				print("An error has occured in broadcast_to_workspace.\n\n{}".format(e))
 
 def broadcast_to_channel (msg, recipients, channels, ommitted):
 	body = "\r[" + msg['from'] + "] " + msg['body']
 	for user in recipients:
 		if user in channels[msg['to']] and recipients[user] != ommitted:
 			try:
-				# print("<><> to: " + user + "  at channel: " + msg['to'])
 				recipients[user].send(body.encode())
 			except Exception as e:
-				recipients[user].close()
-				# recipients.remove(user) #make sure pass-by-value works or abstract out globals
-				print("A client has been disconnected due to an error in broadcast_to_channel: {}".format(e))
+				print("An error has occured in broadcast_to_channel.\n\n{}".format(e))
 
 def send_to_user (msg, recipient):
 	try:
 		recipient.send(msg.encode())
 	except Exception as e:
-		recipient.close()
-		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
-		print("A client has been disconnected due to an error in send_to_user: {} ".format(e))
+		print("An error has occured in send_to_user.\n\n{} ".format(e))
 
 def list_channels (all_channels, recipient):
 	try:
@@ -42,24 +35,22 @@ def list_channels (all_channels, recipient):
 		for channel in all_channels:
 			send_to_user("\r" + str(channel) + "\n\r", recipient)
 	except Exception as e:
-		recipient.close()
-		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
-		print("A client has been disconnected due to an error in list_channels: {}".format(e))
+		print("An error has occured in list_channels.\n\n{}".format(e))
 
 def client_disconnect (all_channels, all_users, socket_out):
 	try:
 		for user in all_users:
 			if all_users[user] == socket_out:
 				leave_workspace(all_channels, all_users, user)
-	except:
-		print("oh")
+	except Exception as e:
+		print("An error has occured in client_disconnect.\n\n{}".format(e))
 
 def leave_workspace (all_channels, all_users, leaving_user):
 	try:
 		del all_users[leaving_user]
 		leave_channels(all_channels, leaving_user)
 	except Exception as e:
-		print("A client has been disconnected due to an error in list_channels: {}".format(e))
+		print("An error has occured in list_channels.\n\n{}".format(e))
 
 def list_users (all_channels, all_users, channel, recipient):
 	try:
@@ -68,22 +59,22 @@ def list_users (all_channels, all_users, channel, recipient):
 		"\n|" + channel_str.center(32) + "|"\
 		"\n+--------------------------------+\n\r", recipient)
 		for user in all_channels[channel]:
-			# send_to_user("hello", recipient)
 			send_to_user("\r {:12s}{:16s}\n".format(user[:11], str(all_users[user].getpeername())), recipient)
 	except Exception as e:
-		recipient.close()
-		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
-		print("A client has been disconnected due to an error in list_channels: {}".format(e))	
+		print("An error has occured in list_channels.\n\n{}".format(e))	
 
 def join_channel (all_channels, all_users, user, channel):
-	if channel in all_channels and user not in all_channels[channel]:
-		# user joins existing channel
-		leave_channels(all_channels, user)
-		all_channels[channel].append(user)
-	else:
-		# existing user creates channel
-		leave_channels(all_channels, user)
-		all_channels.update({channel: [user]})
+	try:
+		if channel in all_channels and user not in all_channels[channel]:
+			# user joins existing channel
+			leave_channels(all_channels, user)
+			all_channels[channel].append(user)
+		else:
+			# existing user creates channel
+			leave_channels(all_channels, user)
+			all_channels.update({channel: [user]})
+	except Exception as e:
+		print("An error has occured in join_channel.\n\n{}".format(e))
 
 def leave_channels (all_channels, user):
 	try:
@@ -91,7 +82,7 @@ def leave_channels (all_channels, user):
 			if user in all_channels[channel]:
 				all_channels[channel].remove(user)
 	except Exception as e:
-		print("An error has occured in leave_channel: {}".format(e))
+		print("An error has occured in leave_channel.\n\n{}".format(e))
 
 def print_all_users (all_users):
 	print("\n+--------------------------------+")
@@ -107,5 +98,4 @@ def print_channel_members (all_channels):
 	for channel in all_channels:
 		# print(channel)
 		for user in all_channels[channel]:
-			# print("   " + channel + ": " + user)
 			print(" {:16s}{:16s}".format(channel[:15], user[:16]))
