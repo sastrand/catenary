@@ -2,6 +2,7 @@
 # Available open source through the MIT License
 
 import socket
+from sys import stdin, stdout
 from select import select
 from msg_processing import *
 
@@ -18,7 +19,7 @@ DEFAULT_USERS = {
 #                Set up server                  #
 #-----------------------------------------------#
 
-all_sockets = []
+all_sockets = [stdin]
 all_channels = DEFAULT_CHANNELS
 all_users = DEFAULT_USERS
 
@@ -49,7 +50,15 @@ while True:
 		else:
 			try:
 				# Incoming message
-				msg = loads(active_socket.recv(MAX_MSG_SIZE).decode())
+				try:
+					msg = loads(active_socket.recv(MAX_MSG_SIZE).decode())
+				except:
+					msg = input()
+					if msg in ["quit", "q"]:					
+						print("goodbye")
+						exit()
+					else:
+						continue
 				if msg['to'] == "JOINCHANNEL":
 					if msg['from'] not in all_users:
 						# new user added to user list
@@ -67,7 +76,7 @@ while True:
 					broadcast_to_channel(msg, all_users, all_channels, active_socket)
 				
 			except Exception as e:
-				broadcast_to_workspace("User {} has left the channel\n".format(addr), all_sockets, [s, active_socket])
+				broadcast_to_workspace("User at {} has left the channel\n".format(addr), all_sockets, [s, active_socket])
 				all_sockets.remove(active_socket)
 				active_socket.close()
 				# exception_record = "An exception of type {0} occurred. \nArguments:{1!r}"
