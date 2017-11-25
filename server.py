@@ -66,10 +66,8 @@ while True:
 					list_users(all_channels, all_users, msg['body'], all_users[msg['from']])
 				else:
 					broadcast_to_channel(msg, all_users, all_channels, active_socket)
-			
 			except JSONDecodeError as ex:
-				client_disconnect(all_channels, all_users, active_socket)
-				broadcast_to_workspace("User at {} has left the channel\n".format(addr), all_sockets, [s, active_socket])
+				client_disconnect(all_sockets, [s, active_socket], all_channels, all_users, active_socket)
 				all_sockets.remove(active_socket)
 				active_socket.close()
 			except AttributeError as ex:

@@ -37,11 +37,14 @@ def list_channels (all_channels, recipient):
 	except Exception as e:
 		print("An error has occured in list_channels.\n\n{}".format(e))
 
-def client_disconnect (all_channels, all_users, socket_out):
+def client_disconnect (all_sockets, ommitted, all_channels, all_users, socket_out):
 	try:
 		for user in all_users:
 			if all_users[user] == socket_out:
 				leave_workspace(all_channels, all_users, user)
+				msg = "User {} has left the channel.\n".format(user)
+				broadcast_to_workspace(msg, all_sockets, ommitted)
+				break
 	except Exception as e:
 		print("An error has occured in client_disconnect.\n\n{}".format(e))
 
