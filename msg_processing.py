@@ -12,7 +12,7 @@ def broadcast_to_workspace (body, recipients, ommitted):
 			except Exception as e:
 				socket.close()
 				recipients.remove(socket)
-				print("A client has been disconnected due to an error: {}".format(e))
+				print("A client has been disconnected due to an error in broadcast_to_workspace: {}".format(e))
 
 def broadcast_to_channel (msg, recipients, channels, ommitted):
 	body = "\r[" + msg['from'] + "] " + msg['body']
@@ -23,7 +23,7 @@ def broadcast_to_channel (msg, recipients, channels, ommitted):
 			except Exception as e:
 				recipients[user].close()
 				# recipients.remove(user) #make sure pass-by-value works or abstract out globals
-				print("A client has been disconnected due to an error: {}".format(e))
+				print("A client has been disconnected due to an error in broadcast_to_channel: {}".format(e))
 
 def send_to_user (msg, recipient):
 	try:
@@ -31,7 +31,7 @@ def send_to_user (msg, recipient):
 	except Exception as e:
 		recipient.close()
 		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
-		print("A client has been disconnected due to an error: {}".format(e))
+		print("A client has been disconnected due to an error in send_to_user: {} ".format(e))
 
 def list_channels (all_channels, recipient):
 	try:
@@ -43,12 +43,17 @@ def list_channels (all_channels, recipient):
 	except Exception as e:
 		recipient.close()
 		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
-		print("A client has been disconnected due to an error: {}".format(e))
+		print("A client has been disconnected due to an error in list_channels: {}".format(e))
 
 def leave_channel(all_channels, user, channel):
-	pass
-	## Implement leave_channel
-	## 
+	try:
+		# all_channels[channel].remove(user)
+		pass
+	except Exception as e:
+		pass
+		# recipient.close()
+		# # recipients.remove(user) #make sure pass-by-value works or abstract out globals
+		# print("A client has been disconnected due to an error in leave_channel: {}".format(e))
 
 def print_all_users(all_users):
 	print("\n+--------------------------------+")

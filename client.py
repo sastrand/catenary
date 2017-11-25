@@ -94,15 +94,15 @@ while True:
 		msg['from'] = user_id
 		msg['body'] = channel_to_join
 	if command in ["leave\n", "lv\n"]:
-		sys.stdout.write("channel (press enter for current): ")
-		sys.stdout.flush()
-		channel_to_leave = sys.stdin.readline()
+		pass
+		channel_to_leave = input("channel (press enter for current): ")
 		if channel_to_leave == '\n':
 			channel_to_leave = channel
-		msg['to'] = "LEAVECHANNEL"
-		msg['from'] = user_id
-		msg['body'] = channel_to_leave
-		print("You have left channel: {}".format(channel))
+		print("<" + channel_to_leave + ">")
+		# msg['to'] = "LEAVECHANNEL"
+		# msg['from'] = user_id
+		# msg['body'] = channel_to_leave
+		# print("You have left channel: {}".format(channel))
 	s.send(json.dumps(msg).encode())
 	prompt_flush(user_id)
 

@@ -72,7 +72,10 @@ while True:
 				elif msg['to'] == "LISTCHANNELS":
 					list_channels(all_channels, all_users[msg['from']])
 				elif msg['to'] == "LEAVECHANNEL":
+					print("here2")
 					leave_channel(all_channels, all_users[msg['from']], all_users[msg['body']])
+					print("User {} left channel {}".format(msg['from'], msg['body']))
+					print_channel_members(all_channels)
 				else:
 					broadcast_to_channel(msg, all_users, all_channels, active_socket)
 				
