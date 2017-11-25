@@ -78,9 +78,32 @@ while True:
 					msg['from'] = user_id
 					s.send(json.dumps(msg).encode())
 					prompt_flush(user_id)
-	msg['to'] = "LISTCHANNELS"
-	msg['from'] = user_id
 	msg['body'] = ''
+	sys.stdout.write("command: ")
+	sys.stdout.flush()
+	command = sys.stdin.readline()
+
+	if command in ["list\n", "l\n"]:
+		msg['to'] = "LISTCHANNELS"
+		msg['from'] = user_id
+		msg['body'] = ''
+	if command in ["join\n", "j\n"]:
+		sys.stdout.write("channel: ")
+		sys.stdout.flush()
+		channel_to_join = sys.stdin.readline()
+		msg['to'] = "JOINCHANNEL"
+		msg['from'] = user_id
+		msg['body'] = channel_to_join
+	if command in ["leave\n", "lv\n"]:
+		sys.stdout.write("channel (press enter for current): ")
+		sys.stdout.flush()
+		channel_to_leave = sys.stdin.readline()
+		if channel_to_leave == '\n':
+			channel_to_leave = channel
+		msg['to'] = "LEAVECHANNEL"
+		msg['from'] = user_id
+		msg['body'] = channel_to_leave
+		print("You have left channel: {}".format(channel))
 	s.send(json.dumps(msg).encode())
 	prompt_flush(user_id)
 
