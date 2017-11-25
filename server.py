@@ -69,7 +69,6 @@ while True:
 					else:
 						all_channels.update({msg['body']: [msg['from']]})
 						print_channel_members(all_channels)
-					print("User: " + msg['from'])
 				elif msg['to'] == "LISTCHANNELS":
 					list_channels(all_channels, all_users[msg['from']])
 				elif msg['to'] == "LEAVECHANNEL":

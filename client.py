@@ -81,6 +81,7 @@ while True:
 	msg['body'] = ''
 	sys.stdout.write("command: ")
 	sys.stdout.flush()
+
 	command = sys.stdin.readline()
 
 	if command in ["list\n", "l\n"]:
@@ -88,9 +89,7 @@ while True:
 		msg['from'] = user_id
 		msg['body'] = ''
 	if command in ["join\n", "j\n"]:
-		sys.stdout.write("channel: ")
-		sys.stdout.flush()
-		channel_to_join = sys.stdin.readline()
+		channel_to_join = input("channel: ")
 		msg['to'] = "JOINCHANNEL"
 		msg['from'] = user_id
 		msg['body'] = channel_to_join
