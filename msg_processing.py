@@ -46,6 +46,20 @@ def list_channels (all_channels, recipient):
 		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
 		print("A client has been disconnected due to an error in list_channels: {}".format(e))
 
+def list_users (all_channels, all_users, channel, recipient):
+	try:
+		channel_str = "#" + channel[:31]
+		send_to_user("\r+--------------------------------+"\
+		"\n|" + channel_str.center(32) + "|"\
+		"\n+--------------------------------+\n\r", recipient)
+		for user in all_channels[channel]:
+			# send_to_user("hello", recipient)
+			send_to_user("\r {:12s}{:16s}\n".format(user[:11], str(all_users[user].getpeername())), recipient)
+	except Exception as e:
+		recipient.close()
+		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
+		print("A client has been disconnected due to an error in list_channels: {}".format(e))	
+
 def join_channel (all_channels, all_users, user, channel):
 	if channel in all_channels and user not in all_channels[channel]:
 		# user joins existing channel

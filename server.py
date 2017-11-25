@@ -1,15 +1,6 @@
 # Copyright (c) 2017 Sascha Strand
 # Available open source through the MIT License
 
-# To do: user can leave channel by prompt and leaves all_users list at close
-# To do: user can leave channel on disconnect (see recipients.remove comments)
-# To do: user can list all rooms
-# To do: .private messaging
-# To do: .enhanced security
-# To do: .file transfer
-# To do: order all users by IP
-# To do: order Channel membership
-
 import socket
 from select import select
 from msg_processing import *
@@ -70,9 +61,8 @@ while True:
 					list_channels(all_channels, all_users[msg['from']])
 				elif msg['to'] == "LEAVECHANNEL":
 					pass
-					# leave_channels(all_channels, all_users[msg['from']], all_users[msg['body']])
-					# print("User {} left channel {}".format(msg['from'], msg['body']))
-					# print_channel_members(all_channels)
+				elif msg['to'] == "LISTUSERS":
+					list_users(all_channels, all_users, msg['body'], all_users[msg['from']])
 				else:
 					broadcast_to_channel(msg, all_users, all_channels, active_socket)
 				
