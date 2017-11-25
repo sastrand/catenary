@@ -66,6 +66,14 @@ while True:
 				elif msg['to'] == "CLOSESERVER" and msg['body'] == "password":
 					print("goodbye")
 					exit()
+				elif msg['to'] == "DIRECTMESSAGE":
+					print("message: " + msg['body'])
+					msg_cont = msg['body'].split(":::")
+					msg_body = "\rPrivate message from {}".format(msg['from']) + "\n\r\t" + msg_cont[1] + "\n"
+					try:
+						send_to_user(msg_body, all_users[msg_cont[0]])
+					except:
+						send_to_user("\rMessage failed to send.\n", all_users[msg['from']])
 				else:
 					broadcast_to_channel(msg, all_users, all_channels, active_socket)
 			except JSONDecodeError as ex:

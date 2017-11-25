@@ -103,6 +103,11 @@ while True:
 	if command in ["closer server\n", "cs\n"]:
 		msg['to'] = "CLOSESERVER"
 		msg['body'] = "password"
+	if command in ["direct message\n", "dm\n"]:
+		msg['to'] = "DIRECTMESSAGE"
+		recipient = input("recipient: ")
+		content = input("conents: ")
+		msg['body'] = recipient + ":::" + content
 	s.send(json.dumps(msg).encode())
 	prompt_flush(user_id)
 
