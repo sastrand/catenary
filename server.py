@@ -59,8 +59,8 @@ while True:
 					print_channel_members(all_channels)
 				elif msg['to'] == "LISTCHANNELS":
 					list_channels(all_channels, all_users[msg['from']])
-				elif msg['to'] == "LEAVECHANNEL":
-					pass
+				elif msg['to'] == "LEAVEWORKSPACE":
+					leave_workspace(all_channels, all_users, msg['from'])
 				elif msg['to'] == "LISTUSERS":
 					list_users(all_channels, all_users, msg['body'], all_users[msg['from']])
 				else:

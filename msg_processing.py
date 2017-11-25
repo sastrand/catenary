@@ -46,6 +46,13 @@ def list_channels (all_channels, recipient):
 		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
 		print("A client has been disconnected due to an error in list_channels: {}".format(e))
 
+def leave_workspace (all_channels, all_users, leaving_user):
+	try:
+		del all_users[leaving_user]
+		leave_channels(all_channels, leaving_user)
+	except Exception as e:
+		print("A client has been disconnected due to an error in list_channels: {}".format(e))
+
 def list_users (all_channels, all_users, channel, recipient):
 	try:
 		channel_str = "#" + channel[:31]
@@ -76,9 +83,7 @@ def leave_channels (all_channels, user):
 			if user in all_channels[channel]:
 				all_channels[channel].remove(user)
 	except Exception as e:
-		recipient.close()
-		# recipients.remove(user) #make sure pass-by-value works or abstract out globals
-		print("A client has been disconnected due to an error in leave_channel: {}".format(e))
+		print("An error has occured in leave_channel: {}".format(e))
 
 def print_all_users (all_users):
 	print("\n+--------------------------------+")

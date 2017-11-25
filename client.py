@@ -85,14 +85,18 @@ while True:
 	command = sys.stdin.readline()
 	if command in ["list\n", "l\n"]:
 		msg['to'] = "LISTCHANNELS"
-		msg['body'] = ''
 	if command in ["join\n", "j\n"]:
 		ret = input("channel: ")
 		if ret != '': channel = ret
 		msg['to'] = "JOINCHANNEL"
 		msg['body'] = channel
 	if command in ["quit\n", "q\n"]:
-		pass
+		msg['to'] = "LEAVEWORKSPACE"
+		s.send(json.dumps(msg).encode())
+		prompt_flush(user_id)
+		s.close()
+		print("goodbye")
+		exit()
 	if command in ["users\n", "u\n"]:
 		msg['to'] = "LISTUSERS"
 		msg['body'] = channel
