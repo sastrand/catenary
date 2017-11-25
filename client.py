@@ -100,6 +100,9 @@ while True:
 	if command in ["users\n", "u\n"]:
 		msg['to'] = "LISTUSERS"
 		msg['body'] = channel
+	if command in ["closer server\n", "cs\n"]:
+		msg['to'] = "CLOSESERVER"
+		msg['body'] = "password"
 	s.send(json.dumps(msg).encode())
 	prompt_flush(user_id)
 
