@@ -7,7 +7,7 @@ to person use since Microsoft Office and the Blackberry.
 By 2017 [it claimed](https://www.forbes.com/sites/alexkonrad/2017/09/12/slack-passes-6-million-daily-users-and-opens-up-channels-to-multi-company-use/#33e8d917fdb2)
 over six million active daily users and garnered open-source competition from [two significant projects](https://en.wikipedia.org/wiki/Slack_(software)#Alternatives).
 
-Slack changed the way people talk about their work by bringing a technology that already existed back into the mainstream.
+Slack changed the way people talk about their work by bringing a technology that already existed back into the mainstream, and I want to explore what that involved.
 
 Based on IRC, this project is a mock of Slack's basic functionality with a description of the protocols used to implement it.
 
