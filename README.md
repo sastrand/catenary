@@ -10,3 +10,9 @@ over six million active daily users and garnered open-source competition from [t
 Slack changed the way people talk about their work by bringing a technology that already existed back into the mainstream.
 
 Based on IRC, this project is a mock of Slack's basic functionality with a description of the protocols used to implement it.
+
+### Running Catenary
+
+* Server.py can be run with `python3 server.py`. It calls methods in msg_processing.py.
+* Client.py can be run in a different process or on a different machine also with `python3 client.py`.
+* The dependencies are minimal and all part of the python3 standard library.
